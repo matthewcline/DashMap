@@ -107,6 +107,7 @@ export default class DashMap extends React.Component {
       <View style={styles.mapContainer}>
         <MapView style={styles.map} ref="map"
           onRegionChangeComplete={this.onRegionChange.bind(this)}
+          provider={(Platform.OS === 'android') ? MapView.PROVIDER_GOOGLE : null}
           initialRegion={{
              latitude: 6.1750836,
              longitude: -75.5840982,
