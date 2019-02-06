@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView from 'react-native-maps';
+import Callout from 'react-native-maps';
+import MyCustomMarkerView from './MyCustomMarkerView';
 
-export default class DashMap extends React.Component {
+export default class DashMap extends Component {
 
   constructor(props) {
     super(props);
@@ -14,6 +16,7 @@ export default class DashMap extends React.Component {
 
   onLocationMarkerClicked(selectedLocation) {
     this.setState({selectedLocation})
+    this.refs.marker.showCallout()
     this.refs.map.animateToRegion({
       latitude: selectedLocation.location.lat,
       longitude: selectedLocation.location.lng,
@@ -24,13 +27,19 @@ export default class DashMap extends React.Component {
 
   getMarker(location) {
     return <MapView.Marker key={location._id}
-      title={location.name}
+      ref="marker"
       image={require('./assets/dash.png')}
       onPress={this.onLocationMarkerClicked.bind(this, location)}
       coordinate={{
         latitude: location.location.lat,
         longitude: location.location.lng
-      }} />
+      }}>
+      <View>
+      <Callout>
+        <MyCustomMarkerView />
+      </Callout>
+      </View>
+    </MapView.Marker>
   }
 
   getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -133,6 +142,10 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+  },
+  customView: {
+    width: 140,
+    height: 100,
   },
 });
 
