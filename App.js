@@ -14,9 +14,14 @@ export default class DashMap extends Component {
     }
   }
 
+  closeLocationDetails() {
+    this.setState({selectedLocation: null})
+  }
+
   onLocationMarkerClicked(selectedLocation) {
+    console.log("onLocationMarkerClicked() called")
     this.setState({selectedLocation})
-    this.refs.marker.showCallout()
+    //this.refs.marker.showCallout()
     this.refs.map.animateToRegion({
       latitude: selectedLocation.location.lat,
       longitude: selectedLocation.location.lng,
@@ -28,18 +33,20 @@ export default class DashMap extends Component {
   getMarker(location) {
     return <MapView.Marker key={location._id}
       ref="marker"
-      image={require('./assets/dash.png')}
+      title={location.name}
+      //image={require('./assets/dash.png')}
       onPress={this.onLocationMarkerClicked.bind(this, location)}
+      //onCalloutPress={() => {console.log("Marker/onCalloutPress");}}
       coordinate={{
         latitude: location.location.lat,
         longitude: location.location.lng
-      }}>
-      <View>
+      }} >
       <Callout>
-        <MyCustomMarkerView />
+        <Text>
+          Lorem 
+        </Text>
       </Callout>
-      </View>
-    </MapView.Marker>
+      </MapView.Marker>
   }
 
   getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -61,6 +68,7 @@ export default class DashMap extends Component {
   }
 
   onRegionChange(mapRegion) {
+    console.log("onRegionChange() called")
     let changeDistanceTreshold = true
     //Check change distance from the last mapRegion
     if (this.state.mapRegion) {
@@ -76,8 +84,11 @@ export default class DashMap extends Component {
 
     this.setState({mapRegion})
     clearTimeout(this.regionChangeTimeoutBounce)
+    console.log("this.state.loading: ", this.state.loading)
+    console.log("!this.state.selectedLocation: ", !this.state.selectedLocation)
+    console.log("changeDistanceTreshold: ", changeDistanceTreshold)
     this.regionChangeTimeoutBounce = setTimeout(() => {
-      if (!this.state.loading && !this.state.selectedLocation && changeDistanceTreshold) { 
+      if (!this.state.loading && !this.state.selectedLocation) { 
         this.loadLocations(mapRegion)
       }
     }, 1300)
@@ -115,14 +126,15 @@ export default class DashMap extends Component {
     return (
       <View style={styles.mapContainer}>
         <MapView style={styles.map} ref="map"
+          onPress={this.closeLocationDetails.bind(this)}
           onRegionChangeComplete={this.onRegionChange.bind(this)}
           initialRegion={{
              latitude: 6.1750836,
              longitude: -75.5840982,
-             latitudeDelta: 8,
-             longitudeDelta: 6,
+             latitudeDelta: 0.0922,
+             longitudeDelta: 0.0421
         }}>
-          {this.state.locations.map(location => (
+          {this.state.locations.slice(0, 10).map(location => (
               this.getMarker(location)
           ))}
         </MapView>
@@ -146,6 +158,17 @@ const styles = StyleSheet.create({
   customView: {
     width: 140,
     height: 100,
+  },
+  viewStyle: {
+    width: 200,
+    height: 250,
+    backgroundColor: "#fff",
+    padding: 20
+  },
+  textStyle: {
+    fontSize: 16,
+    alignSelf: 'center',
+    padding: 5
   },
 });
 
