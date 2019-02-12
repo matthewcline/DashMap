@@ -43,7 +43,7 @@ export default class DashMap extends Component {
       }} >
       <Callout>
         <Text>
-          Lorem 
+          Lorem ipsum 
         </Text>
       </Callout>
       </MapView.Marker>
