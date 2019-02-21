@@ -21,10 +21,10 @@ export default class DashMap extends Component {
   onLocationMarkerClicked(selectedLocation) {
     console.log("onLocationMarkerClicked() called")
     this.setState({selectedLocation})
-    //this.refs.marker.showCallout()
+    this.refs.marker.showCallout()
     this.refs.map.animateToRegion({
-      latitude: selectedLocation.location.lat,
-      longitude: selectedLocation.location.lng,
+      latitude: selectedLocation.place_details.result.geometry.location.lat,
+      longitude: selectedLocation.place_details.result.geometry.location.lng,
       latitudeDelta: 0.01844,
       longitudeDelta: 0.01684,
     }, 400)
@@ -33,19 +33,11 @@ export default class DashMap extends Component {
   getMarker(location) {
     return <MapView.Marker key={location._id}
       ref="marker"
-      title={location.name}
-      //image={require('./assets/dash.png')}
       onPress={this.onLocationMarkerClicked.bind(this, location)}
-      //onCalloutPress={() => {console.log("Marker/onCalloutPress");}}
       coordinate={{
-        latitude: location.location.lat,
-        longitude: location.location.lng
+        latitude: location.place_details.result.geometry.location.lat,
+        longitude: location.place_details.result.geometry.location.lng
       }} >
-      <Callout>
-        <Text>
-          Lorem ipsum 
-        </Text>
-      </Callout>
       </MapView.Marker>
   }
 
@@ -84,9 +76,6 @@ export default class DashMap extends Component {
 
     this.setState({mapRegion})
     clearTimeout(this.regionChangeTimeoutBounce)
-    console.log("this.state.loading: ", this.state.loading)
-    console.log("!this.state.selectedLocation: ", !this.state.selectedLocation)
-    console.log("changeDistanceTreshold: ", changeDistanceTreshold)
     this.regionChangeTimeoutBounce = setTimeout(() => {
       if (!this.state.loading && !this.state.selectedLocation) { 
         this.loadLocations(mapRegion)
@@ -103,7 +92,7 @@ export default class DashMap extends Component {
     const rightLng = region.longitude + region.longitudeDelta
 
     let params = `${topLat}/${botLat}/${leftLng}/${rightLng}`
-    fetch(`http://157.230.87.47/merchants/${params}`, {
+    fetch(`https://directory.onedigital.cash/merchants/${params}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
