@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 import MapView from 'react-native-maps';
 import Callout from 'react-native-maps';
 import MyCustomMarkerView from './MyCustomMarkerView';
@@ -21,7 +21,6 @@ export default class DashMap extends Component {
   onLocationMarkerClicked(selectedLocation) {
     console.log("onLocationMarkerClicked() called")
     this.setState({selectedLocation})
-    this.refs.marker.showCallout()
     this.refs.map.animateToRegion({
       latitude: selectedLocation.place_details.result.geometry.location.lat,
       longitude: selectedLocation.place_details.result.geometry.location.lng,
@@ -31,14 +30,24 @@ export default class DashMap extends Component {
   }
 
   getMarker(location) {
-    return <MapView.Marker key={location._id}
-      ref="marker"
-      onPress={this.onLocationMarkerClicked.bind(this, location)}
-      coordinate={{
-        latitude: location.place_details.result.geometry.location.lat,
-        longitude: location.place_details.result.geometry.location.lng
-      }} >
-      </MapView.Marker>
+    return (
+				<MapView.Marker key={location._id}
+				  ref="marker"
+				  onPress={this.onLocationMarkerClicked.bind(this, location)}
+				  image={require('./assets/dash.png')}
+				  coordinate={{
+				    latitude: location.place_details.result.geometry.location.lat,
+				    longitude: location.place_details.result.geometry.location.lng
+				  }} >
+  			  <Callout>
+				  	<View style={{width: 5, height: 5, backgroundColor: 'powderblue'}} >
+				    	<Text>
+				    		Lorem Ipsum
+				    	</Text>
+				  	</View>
+				  </Callout>
+				</MapView.Marker>
+  	)
   }
 
   getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -61,6 +70,7 @@ export default class DashMap extends Component {
 
   onRegionChange(mapRegion) {
     console.log("onRegionChange() called")
+    console.log("this.state: ", this.state)
     let changeDistanceTreshold = true
     //Check change distance from the last mapRegion
     if (this.state.mapRegion) {
