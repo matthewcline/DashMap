@@ -39,13 +39,15 @@ export default class DashMap extends Component {
 				    latitude: location.place_details.result.geometry.location.lat,
 				    longitude: location.place_details.result.geometry.location.lng
 				  }} >
-  			  <Callout>
-				  	<View style={{width: 5, height: 5, backgroundColor: 'powderblue'}} >
-				    	<Text>
-				    		Lorem Ipsum
-				    	</Text>
-				  	</View>
-				  </Callout>
+          {this.state.selectedLocation == location && 
+    			  <Callout>
+  				  	<View style={{width: 500, height: 500, backgroundColor: 'powderblue'}} >
+  				    	<Text>
+  				    		Lorem Ipsum
+  				    	</Text>
+  				  	</View>
+  				  </Callout>
+          }
 				</MapView.Marker>
   	)
   }
@@ -70,7 +72,6 @@ export default class DashMap extends Component {
 
   onRegionChange(mapRegion) {
     console.log("onRegionChange() called")
-    console.log("this.state: ", this.state)
     let changeDistanceTreshold = true
     //Check change distance from the last mapRegion
     if (this.state.mapRegion) {
