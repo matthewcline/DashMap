@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, Image, View, TextInput } from 'react-native';
 import MapView from 'react-native-maps';
 import Callout from 'react-native-maps';
 import MyCustomMarkerView from './MyCustomMarkerView';
@@ -48,10 +48,20 @@ export default class DashMap extends Component {
 				  }} >
           {this.state.selectedLocation == location._id && 
     			  <Callout>
-  				  	<View style={{width: 50, height: 50, backgroundColor: 'powderblue'}} >
+  				  	<View style={{width: 300, height: 300, backgroundColor: 'white', flex: 1, justifyContent: 'center'}} >
   				    	<Text>
-  				    		Lorem Ipsum
+  				    		{location.name}
   				    	</Text>
+                <Text>
+                  Dirección: {location.place_details.result.formatted_address}
+                </Text>
+                <Text>
+                  Contacto: {location.place_details.result.formatted_phone_number}
+                </Text>
+                <Image
+                  style={{width: 50, height: 50}}
+                  source={{uri: location.place_details.result.icon}}
+                />
   				  	</View>
   				  </Callout>
           }
