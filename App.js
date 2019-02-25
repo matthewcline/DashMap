@@ -11,16 +11,18 @@ export default class DashMap extends Component {
     this.state = {
       loading: false,
       locations: [],
+      selectedLocation: null,
     }
   }
 
   closeLocationDetails() {
+    console.log("set to null?")
     this.setState({selectedLocation: null})
   }
 
   onLocationMarkerClicked(selectedLocation) {
     console.log("onLocationMarkerClicked() called")
-    this.setState({selectedLocation})
+    this.setState({selectedLocation: selectedLocation._id})
     this.refs.map.animateToRegion({
       latitude: selectedLocation.place_details.result.geometry.location.lat,
       longitude: selectedLocation.place_details.result.geometry.location.lng,
