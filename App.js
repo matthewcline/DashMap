@@ -17,6 +17,11 @@ export default class DashMap extends Component {
 
   closeLocationDetails() {
     console.log("set to null?")
+    if (e.nativeEvent.action !== 'marker-press') {
+      console.log("pressed a marker")
+    } else {
+      console.log("pressed the map")
+    }
     this.setState({selectedLocation: null})
   }
 
@@ -41,9 +46,9 @@ export default class DashMap extends Component {
 				    latitude: location.place_details.result.geometry.location.lat,
 				    longitude: location.place_details.result.geometry.location.lng
 				  }} >
-          {this.state.selectedLocation == location && 
+          {this.state.selectedLocation == location._id && 
     			  <Callout>
-  				  	<View style={{width: 500, height: 500, backgroundColor: 'powderblue'}} >
+  				  	<View style={{width: 50, height: 50, backgroundColor: 'powderblue'}} >
   				    	<Text>
   				    		Lorem Ipsum
   				    	</Text>
@@ -125,10 +130,18 @@ export default class DashMap extends Component {
 
   render() {
     //console.log("rendered")
+    console.log("at time of rendering, selectedLocation: ", this.state.selectedLocation)
     return (
       <View style={styles.mapContainer}>
         <MapView style={styles.map} ref="map"
-          onPress={this.closeLocationDetails.bind(this)}
+          onPress={(e) => {
+            if (e.nativeEvent.action !== 'marker-press') {
+              console.log("pressed the map")
+              this.setState({selectedLocation: null})
+            } else {
+              console.log("pressed a marker")
+            }
+          }}
           onRegionChangeComplete={this.onRegionChange.bind(this)}
           initialRegion={{
              latitude: 6.1750836,
