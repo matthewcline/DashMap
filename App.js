@@ -52,6 +52,14 @@ export default class DashMap extends Component {
   				    	<Text>
   				    		{location.name}
   				    	</Text>
+                <Image
+                  style={{width: 150, height: 150}}
+                  source={{uri: "https://images.unsplash.com/photo-1535567465397-7523840f2ae9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}}
+                />
+                <Image
+                  style={{width: 150, height: 150}}
+                  source={{uri: "https://self.onedigital.cash/images/{location.place_details.result.place_id}/{location.place_details.result.photos.0.photo_reference}.jpg"}}
+                />
                 <Text>
                   Dirección: {location.place_details.result.formatted_address}
                 </Text>
