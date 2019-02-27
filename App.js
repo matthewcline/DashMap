@@ -38,42 +38,44 @@ export default class DashMap extends Component {
 
   getMarker(location) {
     return (
-				<MapView.Marker key={location._id}
-				  ref="marker"
-				  onPress={this.onLocationMarkerClicked.bind(this, location)}
-				  image={require('./assets/dash.png')}
-				  coordinate={{
-				    latitude: location.place_details.result.geometry.location.lat,
-				    longitude: location.place_details.result.geometry.location.lng
-				  }} >
-          {this.state.selectedLocation == location._id && 
-    			  <Callout>
-  				  	<View style={{width: 300, height: 300, backgroundColor: 'white', flex: 1, justifyContent: 'center'}} >
-  				    	<Text>
-  				    		{location.name}
-  				    	</Text>
-                <Image
-                  style={{width: 150, height: 150}}
-                  source={{uri: "https://images.unsplash.com/photo-1535567465397-7523840f2ae9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}}
-                />
-                <Image
-                  style={{width: 150, height: 150}}
-                  source={{uri: "https://self.onedigital.cash/images/{location.place_details.result.place_id}/{location.place_details.result.photos.0.photo_reference}.jpg"}}
-                />
-                <Text>
-                  Dirección: {location.place_details.result.formatted_address}
-                </Text>
-                <Text>
-                  Contacto: {location.place_details.result.formatted_phone_number}
-                </Text>
-                <Image
-                  style={{width: 50, height: 50}}
-                  source={{uri: location.place_details.result.icon}}
-                />
-  				  	</View>
-  				  </Callout>
-          }
-				</MapView.Marker>
+      <View key={location._id} style={styles.infoCardContainer}>
+        <View>
+  				<MapView.Marker key={location._id}
+  				  ref="marker"
+  				  onPress={this.onLocationMarkerClicked.bind(this, location)}
+  				  image={require('./assets/pin-icon.png')}
+  				  coordinate={{
+  				    latitude: location.place_details.result.geometry.location.lat,
+  				    longitude: location.place_details.result.geometry.location.lng
+  				  }} >
+          </MapView.Marker>
+        </View>
+        {this.state.selectedLocation == location._id && 
+  		  	<View style={{backgroundColor: 'white', height: 100, width: 100, flexDirection: 'column'}} >
+  		    	<Text>
+  		    		{location.name}
+  		    	</Text>
+            <Image
+              style={{width: 150, height: 150}}
+              source={{uri: "https://images.unsplash.com/photo-1535567465397-7523840f2ae9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}}
+            />
+            <Image
+              style={{width: 150, height: 150}}
+              source={{uri: "https://self.onedigital.cash/images/{location.place_details.result.place_id}/{location.place_details.result.photos.0.photo_reference}.jpg"}}
+            />
+            <Text>
+              Dirección: {location.place_details.result.formatted_address}
+            </Text>
+            <Text>
+              Contacto: {location.place_details.result.formatted_phone_number}
+            </Text>
+            <Image
+              style={{width: 50, height: 50}}
+              source={{uri: location.place_details.result.icon}}
+            />
+  		  	</View>
+        }
+      </View>
   	)
   }
 
@@ -202,6 +204,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: 'center',
     padding: 5
+  },
+  infoCardContainer: {
+    height: 275,
+    width: 350,
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: 15,
+    alignSelf: 'center'
   },
 });
 
