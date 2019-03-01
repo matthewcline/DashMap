@@ -57,7 +57,7 @@ export default class DashMap extends Component {
 
   getMarker(location) {
     return (
-      <View key={location._id} style={styles.infoCardContainer}>
+      <View key={location._id} style={styles.markerView}>
         <View>
 			<MapView.Marker key={location._id}
 			  ref="marker"
@@ -70,7 +70,7 @@ export default class DashMap extends Component {
           	</MapView.Marker>
         </View>
         {this.state.selectedLocation == location._id && 
-  		  	<View style={{backgroundColor: 'white', height: 100, width: 100, flexDirection: 'column'}} >
+  		  	<View style={styles.infoCardContainer} >
   		    	<Text>
   		    		{location.name}
   		    	</Text>
@@ -222,8 +222,16 @@ const styles = StyleSheet.create({
   },
   infoCardContainer: {
     height: 275,
-    width: 350,
+    width: 360,
     backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center'
+  },
+  markerView: {
+    height: 275,
+    width: 360,
+    backgroundColor: 'rgba(52, 52, 52, 0.01)',
     position: 'absolute',
     bottom: 0,
     marginBottom: 15,
