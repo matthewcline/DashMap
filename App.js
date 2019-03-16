@@ -71,7 +71,7 @@ export default class DashMap extends Component {
         </View>
         {this.state.selectedLocation == location._id && 
   		  	<View style={styles.infoCardContainer} >
-  		    	<Text>
+  		    	<Text style={styles.locationName} >
   		    		{location.name}
   		    	</Text>
 	            <Image
@@ -231,12 +231,19 @@ const styles = StyleSheet.create({
   markerView: {
     height: 275,
     width: 360,
-    backgroundColor: 'rgba(52, 52, 52, 0.01)',
+    backgroundColor: 'rgba(52, 52, 52, 0.00)',
     position: 'absolute',
     bottom: 0,
     marginBottom: 15,
     alignSelf: 'center'
   },
+  locationName: {
+  	textAlign: 'center',
+  	fontWeight: 'bold',
+  	fontSize: 20,
+  	letterSpacing: 1.5,
+  	paddingBottom: 5
+  }
 });
 
 //Adapted from: https://bitbucket.org/sambarboza/pokeping-rn/src/8acfd3e11d64aa84149251544ebddef2a5b3f1e1/Map.js?at=master&fileviewer=file-view-default
